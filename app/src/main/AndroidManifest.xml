@@ -18,6 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".screen.MovieDetailActivity" android:theme="@style/Theme.AppTheme.TranslucentStatusBar"></activity>
     </application>
 
 </manifest>

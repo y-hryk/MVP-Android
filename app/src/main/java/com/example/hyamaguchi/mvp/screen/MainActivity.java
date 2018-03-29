@@ -1,14 +1,18 @@
 package com.example.hyamaguchi.mvp.screen;
 
+import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.example.hyamaguchi.mvp.R;
 import com.example.hyamaguchi.mvp.adapter.DiscoverRecyclerViewAdapter;
 import com.example.hyamaguchi.mvp.model.Discover;
+import com.example.hyamaguchi.mvp.model.Movie;
 import com.example.hyamaguchi.mvp.network.DiscoverApi;
 
 import java.util.List;
@@ -21,7 +25,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DiscoverRecyclerViewAdapter.Callback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        final DiscoverRecyclerViewAdapter adapter = new DiscoverRecyclerViewAdapter(this);
+        final DiscoverRecyclerViewAdapter adapter = new DiscoverRecyclerViewAdapter(this, this);
         recyclerView.setAdapter(adapter);
 
 
@@ -62,23 +66,21 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-//        call.enqueue(new Callback<List<Discover>>() {
-//            @Override
-//            public void onResponse(Call<List<Discover>> call, Response<List<Discover>> response) {
-//                List<Discover> items = response.body();
-//                adapter.setMovies(items);
-//
-//                Log.d("debug", "アイテム名" + items.get(0).title);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Discover>> call, Throwable t) {
-//
-//                Log.d("debug", "失敗" + t.getMessage());
-//            }
-//        });
     }
 
+    // DiscoverRecyclerViewAdapter.Callback
+    @Override
+    public void onClickList(Movie movie, ImageView imageView) {
+        Log.d("debug", "click" + movie);
 
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this,
+                imageView,
+                "trasition_image" );
+
+        Intent intent = new Intent(this, MovieDetailActivity.class);
+        intent.putExtra("movie", movie);
+        startActivity(intent, options.toBundle());
+    }
 }
 

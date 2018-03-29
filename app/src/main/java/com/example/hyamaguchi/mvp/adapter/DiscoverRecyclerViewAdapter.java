@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.os.Handler;
 
 /**
  * Created by h.yamaguchi on 2018/03/28.
@@ -23,13 +24,19 @@ import java.util.List;
 
 public class DiscoverRecyclerViewAdapter extends RecyclerView.Adapter<DiscoverRecyclerViewAdapter.ViewHolder> {
 
+    public interface Callback {
+        void onClickList(Movie movie, ImageView imageView);
+    }
+
+    private final Callback listener;
     private ArrayList<Movie> items;
     private Context context;
 
-    public DiscoverRecyclerViewAdapter(Context context) {
+    public DiscoverRecyclerViewAdapter(Context context, Callback listener) {
 
         this.items = new ArrayList<>();
         this.context = context;
+        this.listener = listener;
     }
 
     public void setMovies(List<Movie> movies) {
@@ -48,7 +55,7 @@ public class DiscoverRecyclerViewAdapter extends RecyclerView.Adapter<DiscoverRe
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
         // ここでデータを反映
         holder.movie = items.get(position);
@@ -56,6 +63,22 @@ public class DiscoverRecyclerViewAdapter extends RecyclerView.Adapter<DiscoverRe
         holder.detailTextView.setText(holder.movie.releaseDate);
         holder.voteTextView.setText(String.valueOf(holder.movie.voteAverage));
         Picasso.with(this.context).load("http://image.tmdb.org/t/p/w780" + holder.movie.backdropPath).into(holder.imageView);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.cardView.setEnabled(false);
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        holder.cardView.setEnabled(true);
+                    }
+                }, 1000L);
+
+                if (null != listener) {
+                    listener.onClickList(holder.movie, holder.imageView);
+                }
+            }
+        });
     }
 
     @Override
