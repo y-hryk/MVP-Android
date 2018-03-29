@@ -1,6 +1,7 @@
 package com.example.hyamaguchi.mvp.network;
 
 import com.example.hyamaguchi.mvp.model.Discover;
+import com.example.hyamaguchi.mvp.model.Movie;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface DiscoverApi {
 
     String END_POINT = "https://api.themoviedb.org/3/";
     @GET("discover/movie?api_key=0a06fbb707cb2165dffcd8d27fd04365")
-    Call<Discover> fetchDiscover();
+    Call<Discover<Movie>> fetchDiscover();
 }
