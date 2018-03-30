@@ -38,7 +38,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         titleTextView.setText(item.title());
 
         TextView detailTextView = findViewById(R.id.detail_text_view);
-        detailTextView.setText(item.overView());
+        detailTextView.setText(item.overview());
 
         final CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);

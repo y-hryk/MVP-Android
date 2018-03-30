@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements DiscoverRecyclerV
         final DiscoverRecyclerViewAdapter adapter = new DiscoverRecyclerViewAdapter(this, this);
         recyclerView.setAdapter(adapter);
 
-        Call<Discover<Movie>> call = ApiClient.retrofit().create(DiscoverApi.class).fetchDiscover();
+        Call<Discover<Movie>> call = ApiClient.retrofit().create(DiscoverApi.class).fetchDiscoverMovie();
 
         call.enqueue(new Callback<Discover<Movie>>() {
             @Override

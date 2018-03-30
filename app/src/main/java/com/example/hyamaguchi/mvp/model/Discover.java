@@ -16,7 +16,7 @@ public class Discover<T> implements Serializable {
         String title();
         String releaseDate();
         String imageUrl();
-        String overView();
+        String overview();
         float voteAverage();
     }
 

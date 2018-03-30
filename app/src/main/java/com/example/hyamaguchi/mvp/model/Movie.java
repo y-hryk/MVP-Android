@@ -24,7 +24,7 @@ public class Movie implements Serializable, Discover.DisplayInterface {
     @SerializedName("release_date")
     public String releaseDate;
 
-    // DiscoverDisplayInterface
+    // Discover.DisplayInterface
     @Override
     public String title() {
         return title;
@@ -41,7 +41,7 @@ public class Movie implements Serializable, Discover.DisplayInterface {
     }
 
     @Override
-    public String overView() {
+    public String overview() {
         return overview;
     }
 
