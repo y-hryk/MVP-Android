@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.example.hyamaguchi.mvp.R;
 import com.example.hyamaguchi.mvp.model.Discover;
-import com.example.hyamaguchi.mvp.model.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,11 +24,11 @@ import android.os.Handler;
 public class DiscoverRecyclerViewAdapter extends RecyclerView.Adapter<DiscoverRecyclerViewAdapter.ViewHolder> {
 
     public interface Callback {
-        void onClickList(Movie movie, ImageView imageView);
+        void onClickList(Discover.DisplayInterface item, ImageView imageView);
     }
 
     private final Callback listener;
-    private ArrayList<Movie> items;
+    private ArrayList<Discover.DisplayInterface> items;
     private Context context;
 
     public DiscoverRecyclerViewAdapter(Context context, Callback listener) {
@@ -39,9 +38,9 @@ public class DiscoverRecyclerViewAdapter extends RecyclerView.Adapter<DiscoverRe
         this.listener = listener;
     }
 
-    public void setMovies(List<Movie> movies) {
+    public void setMovies(List<Discover.DisplayInterface> movies) {
 
-        for (Movie movie : movies) {
+        for (Discover.DisplayInterface movie : movies) {
             this.items.add(movie);
         }
         this.notifyDataSetChanged();
@@ -58,11 +57,11 @@ public class DiscoverRecyclerViewAdapter extends RecyclerView.Adapter<DiscoverRe
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         // ここでデータを反映
-        holder.movie = items.get(position);
-        holder.titleTextView.setText(holder.movie.title);
-        holder.detailTextView.setText(holder.movie.releaseDate);
-        holder.voteTextView.setText(String.valueOf(holder.movie.voteAverage));
-        Picasso.with(this.context).load("http://image.tmdb.org/t/p/w780" + holder.movie.backdropPath).into(holder.imageView);
+        holder.item = items.get(position);
+        holder.titleTextView.setText(holder.item.title());
+        holder.detailTextView.setText(holder.item.releaseDate());
+        holder.voteTextView.setText(String.valueOf(holder.item.voteAverage()));
+        Picasso.with(this.context).load(holder.item.imageUrl()).into(holder.imageView);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +74,7 @@ public class DiscoverRecyclerViewAdapter extends RecyclerView.Adapter<DiscoverRe
                 }, 1000L);
 
                 if (null != listener) {
-                    listener.onClickList(holder.movie, holder.imageView);
+                    listener.onClickList(holder.item, holder.imageView);
                 }
             }
         });
@@ -93,7 +92,7 @@ public class DiscoverRecyclerViewAdapter extends RecyclerView.Adapter<DiscoverRe
         public final TextView titleTextView;
         public final TextView detailTextView;
         public final TextView voteTextView;
-        public Movie movie;
+        public Discover.DisplayInterface item;
 
         public ViewHolder(View itemView) {
             super(itemView);

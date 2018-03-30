@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hyamaguchi.mvp.R;
-import com.example.hyamaguchi.mvp.model.Movie;
+import com.example.hyamaguchi.mvp.model.Discover;
 import com.squareup.picasso.Picasso;
 
 public class MovieDetailActivity extends AppCompatActivity {
@@ -23,9 +23,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         ImageView imageView = findViewById(R.id.image_view);
         Intent intent = getIntent();
-        final Movie movie = (Movie) intent.getSerializableExtra("movie");
+        final Discover.DisplayInterface item = (Discover.DisplayInterface) intent.getSerializableExtra("item");
 
-        Picasso.with(this).load("http://image.tmdb.org/t/p/w780" + movie.backdropPath).into(imageView);
+        Picasso.with(this).load(item.imageUrl()).into(imageView);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -35,10 +35,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
 
         TextView titleTextView = findViewById(R.id.title_text_view);
-        titleTextView.setText(movie.title);
+        titleTextView.setText(item.title());
 
         TextView detailTextView = findViewById(R.id.detail_text_view);
-        detailTextView.setText(movie.overview);
+        detailTextView.setText(item.overView());
 
         final CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
@@ -52,7 +52,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    toolbarLayout.setTitle(movie.title);
+                    toolbarLayout.setTitle(item.title());
                     isShow = true;
                 } else if(isShow) {
                     toolbarLayout.setTitle(" ");//carefull there should a space between double quote otherwise it wont work

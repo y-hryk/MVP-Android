@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements DiscoverRecyclerV
             @Override
             public void onResponse(Call<Discover<Movie>> call, Response<Discover<Movie>> response) {
                 Discover discover = response.body();
-                adapter.setMovies(discover.movies);
+                adapter.setMovies(discover.items);
 //                Log.d("debug", "アイテム名" + discover.movies.get(0).title);
             }
 
@@ -49,26 +49,12 @@ public class MainActivity extends AppCompatActivity implements DiscoverRecyclerV
 
             }
         });
-
-//        call.enqueue(new Callback<Discover>() {
-//            @Override
-//            public void onResponse(Call<Discover> call, Response<Discover> response) {
-//                Discover discover = response.body();
-//                adapter.setMovies(discover.movies);
-//                Log.d("debug", "アイテム名" + discover.movies.get(0).title);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Discover> call, Throwable t) {
-//
-//            }
-//        });
     }
 
     // DiscoverRecyclerViewAdapter.Callback
     @Override
-    public void onClickList(Movie movie, ImageView imageView) {
-        Log.d("debug", "click" + movie);
+    public void onClickList(Discover.DisplayInterface item, ImageView imageView) {
+        Log.d("debug", "click" + item);
 
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 this,
@@ -76,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements DiscoverRecyclerV
                 "trasition_image" );
 
         Intent intent = new Intent(this, MovieDetailActivity.class);
-        intent.putExtra("movie", movie);
+        intent.putExtra("item", item);
         startActivity(intent, options.toBundle());
     }
 }
