@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.hyamaguchi.mvp.screen.MovieListFragment;
 import com.example.hyamaguchi.mvp.screen.TvListFragment;
+import com.example.hyamaguchi.mvp.screen.discover.DiscoverFragment;
 
 /**
  * Created by h.yamaguchi on 2018/03/30.
@@ -22,9 +23,9 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                return new MovieListFragment();
+                return DiscoverFragment.create(DiscoverFragment.ContentsType.Movie);
             case 1:
-                return new TvListFragment();
+                return DiscoverFragment.create(DiscoverFragment.ContentsType.TV);
             default:
                 return null;
         }
