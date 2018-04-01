@@ -20,12 +20,14 @@ interface DiscoverView {
     void startLoading();
     void stopLoading();
     void refreshView(List<Discover.DisplayInterface> items);
-    void moreLoadCompletion(List<Discover.DisplayInterface> items);
+    void clearContents();
 }
 
 interface DiscoverPresenterInterface {
 
     void onViewCreated();
+    void moreLoad(int page);
+    void refresh();
 }
 
 public class DiscoverPresenter implements DiscoverPresenterInterface {
@@ -41,41 +43,53 @@ public class DiscoverPresenter implements DiscoverPresenterInterface {
     // DiscoverPresenterInterface
     @Override
     public void onViewCreated() {
-        requestDiscover();
+        requestDiscover(1);
     }
 
-    private void requestDiscover() {
+    @Override
+    public void moreLoad(int page) {
+        requestDiscover(page);
+    }
+
+    public void refresh() {
+        view.clearContents();
+        requestDiscover(1);
+    }
+
+    private void requestDiscover(int page) {
 
         if (this.type == DiscoverFragment.ContentsType.Movie) {
 
-            ApiClient.retrofit().create(DiscoverApi.class).fetchDiscoverMovie()
+            ApiClient.retrofit().create(DiscoverApi.class).fetchDiscoverMovie(page)
                     .enqueue(new Callback<Discover<Movie>>() {
                         @Override
                         public void onResponse(Call<Discover<Movie>> call, Response<Discover<Movie>> response) {
+                            view.stopLoading();
                             Discover discover = response.body();
                             view.refreshView(discover.items);
                         }
 
                         @Override
                         public void onFailure(Call<Discover<Movie>> call, Throwable t) {
-
+                            view.stopLoading();
                         }
                     });
         }
 
         if (this.type == DiscoverFragment.ContentsType.TV) {
 
-            ApiClient.retrofit().create(DiscoverApi.class).fetchDiscoverTv()
+            ApiClient.retrofit().create(DiscoverApi.class).fetchDiscoverTv(page)
                     .enqueue(new Callback<Discover<Tv>>() {
                         @Override
                         public void onResponse(Call<Discover<Tv>> call, Response<Discover<Tv>> response) {
+                            view.stopLoading();
                             Discover discover = response.body();
                             view.refreshView(discover.items);
                         }
 
                         @Override
                         public void onFailure(Call<Discover<Tv>> call, Throwable t) {
-
+                            view.stopLoading();
                         }
                     });
         }

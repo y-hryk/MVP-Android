@@ -1,11 +1,15 @@
 package com.example.hyamaguchi.mvp.screen.discover;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +17,13 @@ import android.widget.ImageView;
 
 import com.example.hyamaguchi.mvp.R;
 import com.example.hyamaguchi.mvp.adapter.DiscoverRecyclerViewAdapter;
+import com.example.hyamaguchi.mvp.listener.EndlessScrollListener;
 import com.example.hyamaguchi.mvp.model.Discover;
+import com.example.hyamaguchi.mvp.screen.MovieDetailActivity;
 
 import java.util.List;
 
 public class DiscoverFragment extends Fragment implements DiscoverRecyclerViewAdapter.Callback, DiscoverView {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private static final String ARG_CONTENTS_TYPE = "type";
 
@@ -29,7 +33,10 @@ public class DiscoverFragment extends Fragment implements DiscoverRecyclerViewAd
     };
 
     private DiscoverPresenterInterface presenter;
+    private RecyclerView recyclerView;
     private DiscoverRecyclerViewAdapter adapter;
+    private SwipeRefreshLayout refresh;
+    private EndlessScrollListener endlessScrollListener;
 
     public DiscoverFragment() {
         // Required empty public constructor
@@ -65,14 +72,11 @@ public class DiscoverFragment extends Fragment implements DiscoverRecyclerViewAd
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        bindViews(view);
+        setRecyclerView();
+        setRefreshView();
 
-        adapter = new DiscoverRecyclerViewAdapter(getActivity(), this);
-        recyclerView.setAdapter(adapter);
-
-        this.presenter.onViewCreated();
+        presenter.onViewCreated();
     }
 
     @Override
@@ -85,10 +89,50 @@ public class DiscoverFragment extends Fragment implements DiscoverRecyclerViewAd
         super.onDetach();
     }
 
+    private void bindViews(View view) {
+        recyclerView = view.findViewById(R.id.recyclerView);
+        refresh = view.findViewById(R.id.refresh);
+    }
+
+    private void setRecyclerView() {
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new DiscoverRecyclerViewAdapter(getActivity(), this);
+        recyclerView.setAdapter(adapter);
+
+        endlessScrollListener = new EndlessScrollListener((LinearLayoutManager)recyclerView.getLayoutManager()) {
+            @Override
+            public void onLoadMore(int current_page) {
+                // Load
+                Log.d("debug", "ページング: " + current_page);
+                presenter.moreLoad(current_page);
+            }
+        };
+        recyclerView.addOnScrollListener(endlessScrollListener);
+    }
+
+    private void setRefreshView() {
+
+        refresh.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.refresh();
+            }
+        });
+    }
+
     // DiscoverRecyclerViewAdapter.Callback
     @Override
     public void onClickList(Discover.DisplayInterface item, ImageView imageView) {
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                getActivity(),
+                imageView,
+                "trasition_image" );
 
+        Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+        intent.putExtra("item", item);
+        startActivity(intent, options.toBundle());
     }
 
     // DiscoverView
@@ -99,16 +143,18 @@ public class DiscoverFragment extends Fragment implements DiscoverRecyclerViewAd
 
     @Override
     public void stopLoading() {
-
+        Log.d("debug", "stopLoading");
+        refresh.setRefreshing(false);;
     }
 
     @Override
     public void refreshView(List<Discover.DisplayInterface> items) {
-        adapter.setMovies(items);
+        adapter.setItems(items);
     }
 
     @Override
-    public void moreLoadCompletion(List<Discover.DisplayInterface> items) {
-
+    public void clearContents() {
+        endlessScrollListener.clear();
+        adapter.clearItems();
     }
 }

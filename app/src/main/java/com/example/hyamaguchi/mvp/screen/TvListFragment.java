@@ -90,12 +90,12 @@ public class TvListFragment extends Fragment implements DiscoverRecyclerViewAdap
         final DiscoverRecyclerViewAdapter adapter = new DiscoverRecyclerViewAdapter(getActivity(), this);
         recyclerView.setAdapter(adapter);
 
-        ApiClient.retrofit().create(DiscoverApi.class).fetchDiscoverTv()
+        ApiClient.retrofit().create(DiscoverApi.class).fetchDiscoverTv(1)
                 .enqueue(new Callback<Discover<Tv>>() {
                     @Override
                     public void onResponse(Call<Discover<Tv>> call, Response<Discover<Tv>> response) {
                         Discover discover = response.body();
-                        adapter.setMovies(discover.items);
+                        adapter.setItems(discover.items);
                     }
 
                     @Override

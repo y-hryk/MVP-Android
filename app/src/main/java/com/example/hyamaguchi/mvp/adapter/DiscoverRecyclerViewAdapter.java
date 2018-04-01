@@ -38,11 +38,16 @@ public class DiscoverRecyclerViewAdapter extends RecyclerView.Adapter<DiscoverRe
         this.listener = listener;
     }
 
-    public void setMovies(List<Discover.DisplayInterface> movies) {
+    public void setItems(List<Discover.DisplayInterface> items) {
 
-        for (Discover.DisplayInterface movie : movies) {
-            this.items.add(movie);
+        for (Discover.DisplayInterface item : items) {
+            this.items.add(item);
         }
+        this.notifyDataSetChanged();
+    }
+
+    public void clearItems() {
+        this.items = new ArrayList<>();
         this.notifyDataSetChanged();
     }
 

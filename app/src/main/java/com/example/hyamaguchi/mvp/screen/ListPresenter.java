@@ -51,7 +51,7 @@ public class ListPresenter implements ListPresenterInterface {
 
     private void requestDiscover() {
 
-        ApiClient.retrofit().create(DiscoverApi.class).fetchDiscoverMovie()
+        ApiClient.retrofit().create(DiscoverApi.class).fetchDiscoverMovie(2)
                 .enqueue(new Callback<Discover<Movie>>() {
                     @Override
                     public void onResponse(Call<Discover<Movie>> call, Response<Discover<Movie>> response) {

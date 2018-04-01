@@ -34,13 +34,13 @@ public class MainActivity extends AppCompatActivity implements DiscoverRecyclerV
         final DiscoverRecyclerViewAdapter adapter = new DiscoverRecyclerViewAdapter(this, this);
         recyclerView.setAdapter(adapter);
 
-        Call<Discover<Movie>> call = ApiClient.retrofit().create(DiscoverApi.class).fetchDiscoverMovie();
+        Call<Discover<Movie>> call = ApiClient.retrofit().create(DiscoverApi.class).fetchDiscoverMovie(2);
 
         call.enqueue(new Callback<Discover<Movie>>() {
             @Override
             public void onResponse(Call<Discover<Movie>> call, Response<Discover<Movie>> response) {
                 Discover discover = response.body();
-                adapter.setMovies(discover.items);
+                adapter.setItems(discover.items);
 //                Log.d("debug", "アイテム名" + discover.movies.get(0).title);
             }
 
