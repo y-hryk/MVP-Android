@@ -43,6 +43,7 @@ public class DiscoverPresenter implements DiscoverPresenterInterface {
     // DiscoverPresenterInterface
     @Override
     public void onViewCreated() {
+        view.startLoading();
         requestDiscover(1);
     }
 
@@ -78,7 +79,7 @@ public class DiscoverPresenter implements DiscoverPresenterInterface {
 
         if (this.type == DiscoverFragment.ContentsType.TV) {
 
-            ApiClient.retrofit().create(DiscoverApi.class).fetchDiscoverTv(page)
+            ApiClient.retrofit().create(DiscoverApi.class).fetchDiscoverTV(page)
                     .enqueue(new Callback<Discover<Tv>>() {
                         @Override
                         public void onResponse(Call<Discover<Tv>> call, Response<Discover<Tv>> response) {

@@ -26,6 +26,10 @@ public class Tv implements Serializable, Discover.DisplayInterface {
 
     //region Discover.DisplayInterface
     @Override
+    public int id() {
+        return id;
+    }
+    @Override
     public String title() {
         return name;
     }

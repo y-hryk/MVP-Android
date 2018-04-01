@@ -4,8 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.hyamaguchi.mvp.screen.MovieListFragment;
-import com.example.hyamaguchi.mvp.screen.TvListFragment;
 import com.example.hyamaguchi.mvp.screen.discover.DiscoverFragment;
 
 /**
@@ -42,7 +40,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return "MOVIE";
             case 1:
-                return "TV";
+                return "TV SHOW";
             default:
                 return "";
         }

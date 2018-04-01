@@ -54,7 +54,7 @@ public class DiscoverRecyclerViewAdapter extends RecyclerView.Adapter<DiscoverRe
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.movie_layout, parent, false);
+                .inflate(R.layout.item_cell, parent, false);
         return new ViewHolder(view);
     }
 

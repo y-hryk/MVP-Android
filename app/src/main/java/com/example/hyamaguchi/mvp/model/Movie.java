@@ -26,6 +26,11 @@ public class Movie implements Serializable, Discover.DisplayInterface {
 
     // Discover.DisplayInterface
     @Override
+    public int id() {
+        return id;
+    }
+
+    @Override
     public String title() {
         return title;
     }

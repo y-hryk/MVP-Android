@@ -20,6 +20,7 @@ import com.example.hyamaguchi.mvp.adapter.DiscoverRecyclerViewAdapter;
 import com.example.hyamaguchi.mvp.listener.EndlessScrollListener;
 import com.example.hyamaguchi.mvp.model.Discover;
 import com.example.hyamaguchi.mvp.screen.MovieDetailActivity;
+import com.example.hyamaguchi.mvp.screen.discoverDetail.DiscoverDetailActivity;
 
 import java.util.List;
 
@@ -130,21 +131,21 @@ public class DiscoverFragment extends Fragment implements DiscoverRecyclerViewAd
                 imageView,
                 "trasition_image" );
 
-        Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+        Intent intent = new Intent(getActivity(), DiscoverDetailActivity.class);
         intent.putExtra("item", item);
+        intent.putExtra("type", (ContentsType)getArguments().get(ARG_CONTENTS_TYPE));
         startActivity(intent, options.toBundle());
     }
 
     // DiscoverView
     @Override
     public void startLoading() {
-
+        refresh.setRefreshing(true);
     }
 
     @Override
     public void stopLoading() {
-        Log.d("debug", "stopLoading");
-        refresh.setRefreshing(false);;
+        refresh.setRefreshing(false);
     }
 
     @Override

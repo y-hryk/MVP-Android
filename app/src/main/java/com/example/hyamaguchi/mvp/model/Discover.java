@@ -13,6 +13,7 @@ import java.util.List;
 public class Discover<T> implements Serializable {
 
     public interface DisplayInterface extends Serializable {
+        int id();
         String title();
         String releaseDate();
         String imageUrl();

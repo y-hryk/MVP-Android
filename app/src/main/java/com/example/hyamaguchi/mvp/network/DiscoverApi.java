@@ -21,5 +21,5 @@ public interface DiscoverApi {
     Call<Discover<Movie>> fetchDiscoverMovie(@Query("page") int page);
 
     @GET("discover/tv?api_key=0a06fbb707cb2165dffcd8d27fd04365&sort_by=popularity.desc")
-    Call<Discover<Tv>> fetchDiscoverTv(@Query("page") int page);
+    Call<Discover<Tv>> fetchDiscoverTV(@Query("page") int page);
 }
