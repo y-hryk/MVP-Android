@@ -11,6 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
+    public final static String END_POINT = "https://api.themoviedb.org/3/";
+    public final static String API_KEY = "0a06fbb707cb2165dffcd8d27fd04365";
     public static Retrofit retrofit() {
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -20,7 +22,7 @@ public class ApiClient {
         httpClient.addInterceptor(logging);
 
         return new Retrofit.Builder()
-                .baseUrl(DiscoverApi.END_POINT)
+                .baseUrl(END_POINT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();
