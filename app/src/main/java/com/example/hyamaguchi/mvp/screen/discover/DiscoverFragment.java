@@ -19,7 +19,6 @@ import com.example.hyamaguchi.mvp.R;
 import com.example.hyamaguchi.mvp.adapter.DiscoverRecyclerViewAdapter;
 import com.example.hyamaguchi.mvp.listener.EndlessScrollListener;
 import com.example.hyamaguchi.mvp.model.Discover;
-import com.example.hyamaguchi.mvp.screen.MovieDetailActivity;
 import com.example.hyamaguchi.mvp.screen.discoverDetail.DiscoverDetailActivity;
 
 import java.util.List;

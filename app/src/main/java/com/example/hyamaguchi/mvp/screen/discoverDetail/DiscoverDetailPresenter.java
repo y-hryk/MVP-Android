@@ -79,7 +79,6 @@ public class DiscoverDetailPresenter implements DiscoverDetailPresenterInterface
 
                         }
                     });
-
         }
 
     }
@@ -100,7 +99,6 @@ public class DiscoverDetailPresenter implements DiscoverDetailPresenterInterface
 
                         }
                     });
-
         }
 
         if (type == DiscoverFragment.ContentsType.TV) {
