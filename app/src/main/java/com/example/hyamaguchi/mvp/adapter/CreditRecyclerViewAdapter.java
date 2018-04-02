@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.hyamaguchi.mvp.R;
 import com.example.hyamaguchi.mvp.model.Cast;
@@ -49,6 +50,7 @@ public class CreditRecyclerViewAdapter extends RecyclerView.Adapter<CreditRecycl
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Cast cast = items.get(position);
+        holder.textView.setText(cast.name);
         Picasso.with(this.context).load("http://image.tmdb.org/t/p/w780" + cast.profilePath).into(holder.imageView);
     }
 
@@ -60,10 +62,12 @@ public class CreditRecyclerViewAdapter extends RecyclerView.Adapter<CreditRecycl
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public final ImageView imageView;
+        public final TextView textView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view);
+            textView = itemView.findViewById(R.id.text_view);
         }
     }
 }
