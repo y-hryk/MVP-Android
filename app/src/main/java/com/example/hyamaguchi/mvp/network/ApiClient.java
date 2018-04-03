@@ -13,6 +13,8 @@ public class ApiClient {
 
     public final static String END_POINT = "https://api.themoviedb.org/3/";
     public final static String API_KEY = "0a06fbb707cb2165dffcd8d27fd04365";
+    public final static String IMAGE_URL_W780 = "http://image.tmdb.org/t/p/w780";
+
     public static Retrofit retrofit() {
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();

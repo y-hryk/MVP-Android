@@ -51,7 +51,7 @@ public class CreditRecyclerViewAdapter extends RecyclerView.Adapter<CreditRecycl
 
         Cast cast = items.get(position);
         holder.textView.setText(cast.name);
-        Picasso.with(this.context).load("http://image.tmdb.org/t/p/w780" + cast.profilePath).into(holder.imageView);
+        Picasso.with(this.context).load(cast.fileURL()).into(holder.imageView);
     }
 
     @Override

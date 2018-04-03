@@ -48,7 +48,7 @@ public class BackDropRecyclerViewAdapter extends RecyclerView.Adapter<BackDropRe
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Image image = items.get(position);
-        Picasso.with(this.context).load("http://image.tmdb.org/t/p/w780" + image.filePath).into(holder.imageView);
+        Picasso.with(this.context).load(image.fileURL()).into(holder.imageView);
     }
 
     @Override

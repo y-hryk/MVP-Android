@@ -1,5 +1,6 @@
 package com.example.hyamaguchi.mvp.model;
 
+import com.example.hyamaguchi.mvp.network.ApiClient;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -15,4 +16,9 @@ public class Cast {
 
     @SerializedName("profile_path")
     public String profilePath;
+
+
+    public String fileURL() {
+        return ApiClient.IMAGE_URL_W780 + profilePath;
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.hyamaguchi.mvp.model;
 
+import com.example.hyamaguchi.mvp.network.ApiClient;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -42,7 +43,7 @@ public class Movie implements Serializable, Discover.DisplayInterface {
 
     @Override
     public String imageUrl() {
-        return "http://image.tmdb.org/t/p/w780" + backdropPath;
+        return ApiClient.IMAGE_URL_W780 + backdropPath;
     }
 
     @Override
