@@ -18,20 +18,14 @@ import android.widget.TextView;
 import com.example.hyamaguchi.mvp.R;
 import com.example.hyamaguchi.mvp.adapter.BackDropRecyclerViewAdapter;
 import com.example.hyamaguchi.mvp.adapter.CreditRecyclerViewAdapter;
-import com.example.hyamaguchi.mvp.model.Backdrop;
 import com.example.hyamaguchi.mvp.model.Cast;
 import com.example.hyamaguchi.mvp.model.Discover;
 import com.example.hyamaguchi.mvp.model.Image;
-import com.example.hyamaguchi.mvp.network.ApiClient;
-import com.example.hyamaguchi.mvp.network.BackdropApi;
 import com.example.hyamaguchi.mvp.screen.discover.DiscoverFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DiscoverDetailActivity extends AppCompatActivity implements DiscoverDetailView {
 
@@ -47,54 +41,16 @@ public class DiscoverDetailActivity extends AppCompatActivity implements Discove
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discover_detail);
 
-        bindViews();
-        setBackDrop();
-        setCredit();
-
-        ImageView imageView = findViewById(R.id.image_view);
         Intent intent = getIntent();
         final Discover.DisplayInterface item = (Discover.DisplayInterface) intent.getSerializableExtra("item");
-
         DiscoverFragment.ContentsType type = (DiscoverFragment.ContentsType)intent.getSerializableExtra("type");
-
-        Picasso.with(this).load(item.imageUrl()).into(imageView);
-
-        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-        TextView titleTextView = findViewById(R.id.title_text_view);
-        titleTextView.setText(item.title());
-
-        TextView detailTextView = findViewById(R.id.detail_text_view);
-        detailTextView.setText(item.overview());
-
         presenter = new DiscoverDetailPresenter(this, item.id(), type);
 
-        final CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = true;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    toolbarLayout.setTitle(item.title());
-                    isShow = true;
-                } else if(isShow) {
-                    toolbarLayout.setTitle(" ");//carefull there should a space between double quote otherwise it wont work
-                    isShow = false;
-                }
-            }
-        });
-
+        bindViews();
+        setToolBar(item);
+        setDetailInfo(item);
+        setBackDrop();
+        setCredit();
 
         presenter.onCreate();
     }
@@ -112,6 +68,50 @@ public class DiscoverDetailActivity extends AppCompatActivity implements Discove
     private void bindViews() {
         backDropRecyclerView = findViewById(R.id.backdrop_recyclerView);
         creditRecyclerView = findViewById(R.id.credit_recyclerView);
+    }
+
+    private void setToolBar(Discover.DisplayInterface item) {
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        final String title = item.title();
+        final CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    toolbarLayout.setTitle(title);
+                    isShow = true;
+                } else if(isShow) {
+                    toolbarLayout.setTitle(" ");//carefull there should a space between double quote otherwise it wont work
+                    isShow = false;
+                }
+            }
+        });
+    }
+
+    private void setDetailInfo(Discover.DisplayInterface item) {
+
+        ImageView imageView = findViewById(R.id.image_view);
+        Picasso.with(this).load(item.imageUrl()).into(imageView);
+
+        TextView titleTextView = findViewById(R.id.title_text_view);
+        titleTextView.setText(item.title());
+
+        TextView detailTextView = findViewById(R.id.detail_text_view);
+        detailTextView.setText(item.overview());
     }
 
     private void setBackDrop() {

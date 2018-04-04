@@ -58,7 +58,8 @@ public class DiscoverFragment extends Fragment implements DiscoverRecyclerViewAd
         if (getArguments() != null) {
             type = (ContentsType)getArguments().get(ARG_CONTENTS_TYPE);
         }
-        this.presenter = new DiscoverPresenter(this, type);
+
+        presenter = new DiscoverPresenter(this, type);
     }
 
     @Override
